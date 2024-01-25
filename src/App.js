@@ -61,22 +61,24 @@ export default function App() {
 
   return (
     <>
-      <NavbarWatch />
-      <MainComp />
+      <NavbarWatch>
+        <Logo />
+        <SearchInput />
+        <Results movies={movies} />
+      </NavbarWatch>
+      <MainComp movies={movies}/>
     </>
   );
 };
 
  ////////////////////////////////////////////////
- //           Nav and small Comp
+ //            Nav and small Comp
  /////////////////////////////////////////////////
 
-function NavbarWatch() {
+function NavbarWatch({ children }) {
   return (
     <nav className="nav-bar">
-      <Logo />
-      <SearchInput />
-      <Results />
+      {children}
     </nav>
   )
 };
@@ -106,29 +108,29 @@ function SearchInput() {
 };
 
 
-function Results() {
+function Results({ movies }) {
   return(
     <p className="num-results">
-      Found <strong>X</strong> results
+      Found <strong>{movies.length}</strong> results
     </p>
   )
 };
 
  ////////////////////////////////////////////////
- //       Main Comp
+ //              Main Comp
  /////////////////////////////////////////////////
 
-function MainComp() {
+function MainComp({ movies }) {
   return (
     <main className="main">
-    <ListBox />
-    <WatchedBox />
-  </main>
+      <ListBox movies={movies}/>
+      <WatchedBox />
+    </main>
   )
 };
 
 
-function ListBox() {
+function ListBox({ movies }) {
   const [isOpen1, setIsOpen1] = useState(true);
   return(
     <div className="box">
@@ -139,14 +141,14 @@ function ListBox() {
         {isOpen1 ? "–" : "+"}
       </button>
       {isOpen1 && (
-        <MoviesList />
+        <MoviesList movies={movies}/>
       )}
     </div>
   )
 };
 
 
-function MoviesList() {
+function MoviesList({ movies }) {
   
   return(
     <ul className="list">
