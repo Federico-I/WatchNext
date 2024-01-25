@@ -51,7 +51,14 @@ const tempWatchedData = [
 const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 
+ ////////////////////////////////////////////////
+ //           App Comp
+ /////////////////////////////////////////////////
+
 export default function App() {
+
+  const [movies, setMovies] = useState(tempMovieData);
+
   return (
     <>
       <NavbarWatch />
@@ -60,12 +67,15 @@ export default function App() {
   );
 };
 
+ ////////////////////////////////////////////////
+ //           Nav and small Comp
+ /////////////////////////////////////////////////
 
 function NavbarWatch() {
   return (
     <nav className="nav-bar">
       <Logo />
-      <SearchInout />
+      <SearchInput />
       <Results />
     </nav>
   )
@@ -82,7 +92,7 @@ function Logo() {
 };
 
 
-function SearchInout() {
+function SearchInput() {
   const [query, setQuery] = useState("");
   return(
     <input
@@ -104,7 +114,10 @@ function Results() {
   )
 };
 
- 
+ ////////////////////////////////////////////////
+ //       Main Comp
+ /////////////////////////////////////////////////
+
 function MainComp() {
   return (
     <main className="main">
@@ -134,9 +147,7 @@ function ListBox() {
 
 
 function MoviesList() {
-
-  const [movies, setMovies] = useState(tempMovieData);
-
+  
   return(
     <ul className="list">
       {movies?.map((movie) => (
@@ -162,6 +173,9 @@ function MovieItem({ movie }) {
   )
 };
 
+ ////////////////////////////////////////////////
+ //             Watched List Comp
+ /////////////////////////////////////////////////
 
 function WatchedBox() {
   const [watched, setWatched] = useState(tempWatchedData);
@@ -214,6 +228,9 @@ function WatchedInfoList({ watched }) {
   )
 };
 
+ ////////////////////////////////////////////////
+ //           Already Watched
+ /////////////////////////////////////////////////
 
 function AlreadyWatched({ watched }) {
   return(
