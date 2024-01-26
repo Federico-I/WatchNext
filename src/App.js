@@ -59,6 +59,8 @@ export default function App() {
 
   const [movies, setMovies] = useState(tempMovieData);
 
+  const [watched, setWatched] = useState(tempWatchedData);
+
   return (
     <>
       <NavbarWatch>
@@ -67,10 +69,13 @@ export default function App() {
         <Results movies={movies} />
       </NavbarWatch>
       <MainComp>
-        <ListBox >
+        <BoxBox  >
           <MoviesList movies={movies}/>
-        </ListBox>
-        <WatchedBox />
+        </BoxBox >
+        <BoxBox >
+          <WatchedInfoList watched={watched} />
+          <AlreadyWatched watched={watched} />
+        </BoxBox >
       </MainComp>
     </>
   );
@@ -135,7 +140,7 @@ function MainComp({ children }) {
 };
 
 
-function ListBox({ children }) {
+function BoxBox ({ children }) {
   const [isOpen1, setIsOpen1] = useState(true);
   return(
     <div className="box">
@@ -181,9 +186,9 @@ function MovieItem({ movie }) {
  ////////////////////////////////////////////////
  //             Watched List Comp
  /////////////////////////////////////////////////
+/*
+function WatchedBox({ children }) {
 
-function WatchedBox() {
-  const [watched, setWatched] = useState(tempWatchedData);
   const [isOpen2, setIsOpen2] = useState(true);
   return(
     <div className="box">
@@ -193,16 +198,11 @@ function WatchedBox() {
       >
       {isOpen2 ? "–" : "+"}
       </button>
-      {isOpen2 && (
-        <>
-          <WatchedInfoList watched={watched} />
-          <AlreadyWatched watched={watched} />
-        </>
-      )}
+      {isOpen2 && children}
     </div>
   )
 };
-
+*/
 
 function WatchedInfoList({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
