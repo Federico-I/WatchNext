@@ -1,14 +1,34 @@
 "useStrict"
 
-export default function StartRating() {
+const containerStyle = {
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
+};
+
+const starContainerStyle = {
+    display: "flex",
+    gap: "4px",
+};
+
+const textStyle = {
+    lineHeight: "1",
+    margin: "0",
+}
+
+// Setting default props => function StartRating({ maxRating = 10 })
+
+export default function StartRating({ maxRating = 10 }) {
+    
+
     return(
-        <div>
-            <div>
-                {Array.form({ length: 5}, (_, i) => (
+        <div style={containerStyle}>
+            <div style={starContainerStyle}>
+                {Array.form({ length: maxRating}, (_, i) => (
                     <span>M{i + 1}</span>
                 ))}
             </div>
-            <div>10</div>
+            <p style={textStyle}>10</p>
         </div>
     );
 };
