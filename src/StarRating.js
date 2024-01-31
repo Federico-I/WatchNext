@@ -1,5 +1,6 @@
 "useStrict"
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const containerStyle = {
     display: "flex",
@@ -11,6 +12,11 @@ const starContainerStyle = {
     display: "flex",
 };
 
+StartRating.propTypes = {
+    maxRating: PropTypes.number,
+    defaultRating: PropTypes.number,
+    color: PropTypes.string,
+}
 
 
 // Setting default props => function StartRating({ maxRating = 10 })
