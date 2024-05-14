@@ -6,9 +6,29 @@ import ReactDOM from 'react-dom/client';
 import StartRating from './StarRating';
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // to make comp more customizable the functios has to be added outside root, must have it's own state
 
 // update state info by passing them using prop drilling and handling funtions.
+
+/*
 
 function Test() {
   const [movieRating, setMovieRating] = useState();
@@ -21,14 +41,17 @@ function Test() {
   )
 }
 
+*/
+/*
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-   {/*<App />*/}
+   {/*<App />*//*} 
     <StartRating maxRating={5} messagess={["Terrible", "Bad", "Okay", "Good", "Amazing"]}/>
     <StartRating size={24} color="red" className="test"/>
     <Test />
   </React.StrictMode>
 );
 
+*/

@@ -48,6 +48,28 @@ const tempWatchedData = [
 ];
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+
 const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 
@@ -204,6 +226,8 @@ function WatchedBox({ children }) {
 };
 */
 
+/*
+
 function TotalWatchedInfo({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
@@ -270,3 +294,5 @@ function WatchedMovieItem({ movie }) {
     </li>
   )
 };
+
+*/
