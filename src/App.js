@@ -57,32 +57,65 @@ const average = (arr) =>
 //////////////////////////////////////////////////////////
 
 function NavBar() {
-  const [query, setQuery] = useState("");
 
   return(
-    <nav className="nav-bar">
-        <div className="logo">
-          <span role="img">🍿</span>
-          <h1>usePopcorn</h1>
-        </div>
-        <input
-          className="search"
-          type="text"
-          placeholder="Search movies..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <p className="num-results">
-          Found <strong>X</strong> results
-        </p>
+      <nav className="nav-bar">
+        <Logo />
+        <Search />
+        <FoundCounter />
       </nav>
   )
 };
 
 
 //////////////////////////////////////////////////////////
+//                     Search Bar
+//////////////////////////////////////////////////////////
+
+function Search() {
+
+  const [query, setQuery] = useState("");
+
+  return(
+    <input
+    className="search"
+    type="text"
+    placeholder="Search movies..."
+    value={query}
+    onChange={(e) => setQuery(e.target.value)}
+  />
+  )
+};
+
+//////////////////////////////////////////////////////////
+//                       Logo
+//////////////////////////////////////////////////////////
+
+function Logo() {
+  return(
+    <div className="logo">
+      <span role="img">🍿</span>
+      <h1>usePopcorn</h1>
+    </div>
+  )
+};
+
+//////////////////////////////////////////////////////////
+//                   FoundCounter
+//////////////////////////////////////////////////////////
+
+function FoundCounter() {
+  return(
+    <p className="num-results">
+      Found <strong>X</strong> results
+    </p>
+  )
+};
+
+//////////////////////////////////////////////////////////
 //                       Main
 //////////////////////////////////////////////////////////
+
 function Main() {
   
   const [movies, setMovies] = useState(tempMovieData);
@@ -96,7 +129,6 @@ function Main() {
 
   return (
     <>
-      <NavBar />
 
       <main className="main">
         <div className="box">
