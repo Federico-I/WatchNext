@@ -58,8 +58,15 @@ export default function App() {
 
   return(
     <>
-      <NavBar movies={movies}/>
-      <Main movies={movies}/>
+      <NavBar>
+        <FoundCounter movies={movies}/>
+      </NavBar>
+      <Main>
+        <SearchList>
+          <MovieList movies={movies}/>
+        </SearchList>
+        <WatchedList />
+      </Main>
     </>
   )
 
@@ -73,13 +80,13 @@ const average = (arr) =>
 //                       NavBar
 //////////////////////////////////////////////////////////
 
-function NavBar({ movies }) {
+function NavBar({ children }) {
 
   return(
       <nav className="nav-bar">
         <Logo />
         <Search />
-        <FoundCounter movies={movies}/>
+        {children}
       </nav>
   )
 };
@@ -104,6 +111,7 @@ function Search() {
   )
 };
 
+
 //////////////////////////////////////////////////////////
 //                       Logo
 //////////////////////////////////////////////////////////
@@ -117,6 +125,7 @@ function Logo() {
   )
 };
 
+
 //////////////////////////////////////////////////////////
 //                   FoundCounter
 //////////////////////////////////////////////////////////
@@ -129,17 +138,17 @@ function FoundCounter({ movies }) {
   )
 };
 
+
 //////////////////////////////////////////////////////////
 //                       Main
 //////////////////////////////////////////////////////////
 
-function Main({ movies }) {
+function Main({ children }) {
 
   return (
     <>
       <main className="main">
-        <SearchList />
-        <WatchedList movies={movies}/>
+        {children}
       </main>
     </>
   );
@@ -150,7 +159,7 @@ function Main({ movies }) {
 //                     SearchList
 //////////////////////////////////////////////////////////
 
-function SearchList({ movies }) {
+function SearchList({ children }) {
 
   const [isOpen1, setIsOpen1] = useState(true);
 
@@ -162,9 +171,7 @@ function SearchList({ movies }) {
           >
             {isOpen1 ? "–" : "+"}
           </button>
-          {isOpen1 && (
-            <MovieList movies={movies}/>
-          )}
+          {isOpen1 && children}
     </div>
   )
 };
@@ -191,14 +198,14 @@ function MovieList({ movies }) {
 function MovieComp({ movie }) {
   return(
     <li key={movie.imdbID}>
-          <img src={movie.Poster} alt={`${movie.Title} poster`} />
-          <h3>{movie.Title}</h3>
-          <div>
-            <p>
-              <span>🗓</span>
-              <span>{movie.Year}</span>
-            </p>
-          </div>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span>{movie.Year}</span>
+        </p>
+      </div>
    </li>
   )
 };
@@ -214,18 +221,17 @@ function WatchedList() {
 
   return(
     <div className="box">
-          <button
-            className="btn-toggle"
-            onClick={() => setIsOpen2((open) => !open)}
-          >
-            {isOpen2 ? "–" : "+"}
-          </button>
-          {isOpen2 && (
-            <>
-              <Watched watched={watched}/>
-              <RateWatched watched={watched}/>
-            </>
-          )}
+      <button
+        className="btn-toggle"
+        onClick={() => setIsOpen2((open) => !open)}>
+        {isOpen2 ? "–" : "+"}
+      </button>
+      {isOpen2 && (
+        <>
+          <Watched watched={watched}/>
+          <RateWatched watched={watched}/>
+        </>
+      )}
     </div>
   )
 };
