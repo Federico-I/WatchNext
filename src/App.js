@@ -196,8 +196,6 @@ function WatchedList() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isOpen2, setIsOpen2] = useState(true);
 
-
-
   return(
     <div className="box">
           <button
@@ -209,34 +207,12 @@ function WatchedList() {
           {isOpen2 && (
             <>
               <Watched watched={watched}/>
-              <ul className="list">
-                {watched.map((movie) => (
-                  <li key={movie.imdbID}>
-                    <img src={movie.Poster} alt={`${movie.Title} poster`} />
-                    <h3>{movie.Title}</h3>
-                    <div>
-                      <p>
-                        <span>⭐️</span>
-                        <span>{movie.imdbRating}</span>
-                      </p>
-                      <p>
-                        <span>🌟</span>
-                        <span>{movie.userRating}</span>
-                      </p>
-                      <p>
-                        <span>⏳</span>
-                        <span>{movie.runtime} min</span>
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <RateWatched watched={watched}/>
             </>
           )}
     </div>
   )
 };
-
 
 //////////////////////////////////////////////////////////
 //                      Watched
@@ -277,7 +253,44 @@ function Watched({ watched }) {
 //                    RateWatched
 //////////////////////////////////////////////////////////
 
+function RateWatched({ watched }) {
 
+  return(
+    <ul className="list">
+      {watched.map((movie) => (
+        <MovieCompo movie={movie} key={movie.imdbID}/>
+      ))}
+    </ul>
+  )
+};
+
+
+//////////////////////////////////////////////////////////
+//                    MovieComp
+//////////////////////////////////////////////////////////
+
+function MovieCompo({ movie }) {
+  return(
+    <li key={movie.imdbID}>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>⭐️</span>
+          <span>{movie.imdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{movie.userRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{movie.runtime} min</span>
+        </p>
+      </div>
+    </li>
+  )
+};
 
 //////////////////////////////////////////////////////////
 //                       APP
