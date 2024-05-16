@@ -48,6 +48,23 @@ const tempWatchedData = [
 ];
 
 
+//////////////////////////////////////////////////////////
+//                       APP
+//////////////////////////////////////////////////////////
+
+export default function App() {
+
+  const [movies, setMovies] = useState(tempMovieData);
+
+  return(
+    <>
+      <NavBar movies={movies}/>
+      <Main movies={movies}/>
+    </>
+  )
+
+};
+
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -56,13 +73,13 @@ const average = (arr) =>
 //                       NavBar
 //////////////////////////////////////////////////////////
 
-function NavBar() {
+function NavBar({ movies }) {
 
   return(
       <nav className="nav-bar">
         <Logo />
         <Search />
-        <FoundCounter />
+        <FoundCounter movies={movies}/>
       </nav>
   )
 };
@@ -104,10 +121,10 @@ function Logo() {
 //                   FoundCounter
 //////////////////////////////////////////////////////////
 
-function FoundCounter() {
+function FoundCounter({ movies }) {
   return(
     <p className="num-results">
-      Found <strong>X</strong> results
+      Found <strong>{movies.length}</strong> results
     </p>
   )
 };
@@ -116,13 +133,13 @@ function FoundCounter() {
 //                       Main
 //////////////////////////////////////////////////////////
 
-function Main() {
+function Main({ movies }) {
 
   return (
     <>
       <main className="main">
         <SearchList />
-        <WatchedList />
+        <WatchedList movies={movies}/>
       </main>
     </>
   );
@@ -133,7 +150,7 @@ function Main() {
 //                     SearchList
 //////////////////////////////////////////////////////////
 
-function SearchList() {
+function SearchList({ movies }) {
 
   const [isOpen1, setIsOpen1] = useState(true);
 
@@ -146,7 +163,7 @@ function SearchList() {
             {isOpen1 ? "–" : "+"}
           </button>
           {isOpen1 && (
-            <MovieList />
+            <MovieList movies={movies}/>
           )}
     </div>
   )
@@ -156,8 +173,7 @@ function SearchList() {
 //                     MovieList
 //////////////////////////////////////////////////////////
 
-function MovieList() {
-  const [movies, setMovies] = useState(tempMovieData);
+function MovieList({ movies }) {
 
   return(
     <ul className="list">
@@ -292,20 +308,7 @@ function MovieCompo({ movie }) {
   )
 };
 
-//////////////////////////////////////////////////////////
-//                       APP
-//////////////////////////////////////////////////////////
 
-export default function App() {
-
-  return(
-    <>
-      <NavBar />
-      <Main />
-    </>
-  )
-
-};
 
 
 
