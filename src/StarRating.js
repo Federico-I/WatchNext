@@ -23,8 +23,6 @@ StartRating.propTypes = {
 }
 
 
-// Setting default props => function StartRating({ maxRating = 10 })
-
 export default function StartRating({ maxRating= 5, color= "#fcc419", size= 48, messages=  [], defaultRating= 0, onSetRating,}) {
     const [rating, setRating] = useState(defaultRating);
     const [tempRating, setTempRating] = useState (0);
@@ -54,7 +52,6 @@ export default function StartRating({ maxRating= 5, color= "#fcc419", size= 48, 
 };
 
 
-
 function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
 
     const starStyle = {
@@ -75,10 +72,3 @@ function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
     </span>
     )
 };
-
-/*
-
-// EMPTY STAR
-
-
-*/
