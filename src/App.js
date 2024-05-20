@@ -67,12 +67,21 @@ export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
 
+  const query = "terminator";
+
   //////////////
   //   API - fetch ("link with KEY")
   //////////////
 
   useEffect(function () {
-    fetch("").then((res) => res.json()).then((data => console.log(data.Search)));
+    async function fetchMovies() {
+      const res = await fetch("");
+      const data = await res.json();
+
+      setMovies(data.Search);
+      console.log(data.Search);
+    }
+    fetchMovies();
   }, []);
 
   
