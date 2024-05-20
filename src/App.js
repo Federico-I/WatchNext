@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 
 const tempMovieData = [
   {
@@ -69,9 +70,12 @@ export default function App() {
   //////////////
   //   API - fetch ("link with KEY")
   //////////////
-  
-  fetch("").then((res) => res.json()).then((data => console.log(data.Search)));
 
+  useEffect(function () {
+    fetch("").then((res) => res.json()).then((data => console.log(data.Search)));
+  }, []);
+
+  
   return(
     <>
       <NavBar>
