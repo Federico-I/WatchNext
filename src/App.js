@@ -48,6 +48,15 @@ const tempWatchedData = [
 ];
 
 
+
+const average = (arr) =>
+  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+////////////////// movie API ///////////////////////
+
+const KEY = "";
+
+
 //////////////////////////////////////////////////////////
 //                       APP
 //////////////////////////////////////////////////////////
@@ -56,6 +65,12 @@ export default function App() {
 
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
+
+  //////////////
+  //   API - fetch ("link with KEY")
+  //////////////
+  
+  fetch("").then((res) => res.json()).then((data => console.log(data.Search)));
 
   return(
     <>
@@ -77,8 +92,6 @@ export default function App() {
 };
 
 
-const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 //////////////////////////////////////////////////////////
 //                       NavBar
