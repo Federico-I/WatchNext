@@ -67,6 +67,7 @@ export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] =useState();
   const query = "terminator";
 
   //////////////
@@ -75,13 +76,20 @@ export default function App() {
 
   useEffect(function () {
     async function fetchMovies() {
+      try {
       setIsLoading(true);
       const res = await fetch("");
+
+      if (!res.ok)
+        throw new Error("Somthing went wring with fetching movies");
+
       const data = await res.json();
       setMovies(data.Search);
       setIsLoading(false);
-
-      console.log(data.Search);
+      } catch (err) {
+      console.error(err.message);
+      setError()
+      }
     }
     fetchMovies();
   }, []);
