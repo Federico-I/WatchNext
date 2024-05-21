@@ -66,7 +66,7 @@ export default function App() {
 
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
-
+  const [isLoading, setIsLoading] = useState(false);
   const query = "terminator";
 
   //////////////
@@ -75,10 +75,12 @@ export default function App() {
 
   useEffect(function () {
     async function fetchMovies() {
+      setIsLoading(true);
       const res = await fetch("");
       const data = await res.json();
-
       setMovies(data.Search);
+      setIsLoading(false);
+
       console.log(data.Search);
     }
     fetchMovies();
@@ -92,7 +94,7 @@ export default function App() {
       </NavBar>
       <Main>
         <List>
-          <MovieList movies={movies}/>
+          {isLoading ? <Loading /> : <MovieList movies={movies}/>}
         </List>
         <List >
           <Watched watched={watched}/>
@@ -105,6 +107,16 @@ export default function App() {
 };
 
 
+
+//////////////////////////////////////////////////////////
+//                    LoadingComp
+//////////////////////////////////////////////////////////
+
+function Loading() {
+  return(
+    <p className="loader">Loading...</p>
+  )
+};
 
 //////////////////////////////////////////////////////////
 //                       NavBar
