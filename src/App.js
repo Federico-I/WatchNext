@@ -88,7 +88,9 @@ export default function App() {
       setIsLoading(false);
       } catch (err) {
       console.error(err.message);
-      setError()
+      setError(err.message);
+      } finally {
+        setIsLoading(false)
       }
     }
     fetchMovies();
@@ -102,7 +104,10 @@ export default function App() {
       </NavBar>
       <Main>
         <List>
-          {isLoading ? <Loading /> : <MovieList movies={movies}/>}
+          {/*isLoading ? <Loading /> : <MovieList movies={movies}/>*/}
+          {isLoading && <Loading/>}
+          { !isLoading && !error && <MovieList movies={movies}/>}
+          {error && <Error message={error} />}
         </List>
         <List >
           <Watched watched={watched}/>
@@ -123,6 +128,20 @@ export default function App() {
 function Loading() {
   return(
     <p className="loader">Loading...</p>
+  )
+};
+
+
+
+//////////////////////////////////////////////////////////
+//                    ErrorComp
+//////////////////////////////////////////////////////////
+
+function Error({ message }) {
+  return(
+    <p className="error">
+      <span>X</span>{message}
+    </p>
   )
 };
 
