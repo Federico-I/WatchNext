@@ -64,11 +64,21 @@ const KEY = "";
 
 export default function App() {
 
+  const [query, setQuery] = useState("");
+
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] =useState();
-  const query = "terminator";
+  const querySearch = "terminator";
+
+  useEffect(function() {
+    console.log("A");
+  }, []); 
+
+  useEffect(function() {
+    console.log("B");
+  }, []); 
 
   //////////////
   //   API - fetch ("link with KEY")
@@ -78,12 +88,15 @@ export default function App() {
     async function fetchMovies() {
       try {
       setIsLoading(true);
-      const res = await fetch("");
+      setError("");
+      
+      const res = await fetch(`${query}`);
 
       if (!res.ok)
         throw new Error("Somthing went wring with fetching movies");
 
-      const data = await res.json();
+        const data = await res.json();
+        if (data.Response === "False") throw new Error("Movie not found");
       setMovies(data.Search);
       } catch (err) {
       console.error(err.message);
@@ -99,6 +112,7 @@ export default function App() {
   return(
     <>
       <NavBar>
+        <Search query={query} setQuery={setQuery}/>
         <FoundCounter movies={movies}/>
       </NavBar>
       <Main>
@@ -153,7 +167,6 @@ function NavBar({ children }) {
   return(
       <nav className="nav-bar">
         <Logo />
-        <Search />
         {children}
       </nav>
   )
@@ -164,9 +177,7 @@ function NavBar({ children }) {
 //                     Search Bar
 //////////////////////////////////////////////////////////
 
-function Search() {
-
-  const [query, setQuery] = useState("");
+function Search({ query, setQuery }) {
 
   return(
     <input
