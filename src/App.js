@@ -72,14 +72,6 @@ export default function App() {
   const [error, setError] =useState();
   const querySearch = "terminator";
 
-  useEffect(function() {
-    console.log("A");
-  }, []); 
-
-  useEffect(function() {
-    console.log("B");
-  }, []); 
-
   //////////////
   //   API - fetch ("link with KEY")
   //////////////
@@ -89,7 +81,7 @@ export default function App() {
       try {
       setIsLoading(true);
       setError("");
-      
+
       const res = await fetch(`${query}`);
 
       if (!res.ok)
@@ -105,8 +97,14 @@ export default function App() {
         setIsLoading(false)
       }
     }
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
     fetchMovies();
-  }, []);
+  }, [query]);
 
   
   return(
