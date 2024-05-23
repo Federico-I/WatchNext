@@ -64,20 +64,31 @@ const average = (arr) =>
 
 export default function App() {
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("terminator");
 
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] =useState("");
   const [selectedID, setSelectedID] = useState(null)
-  
-  
-  // const querySearch = "terminator";
 
-  //////////////
-  //   API - fetch ("link with KEY")
-  //////////////
+
+
+  //////////////////////////////////////////////
+  //             function-handle
+  ///////////////////////////////////////////////
+  
+  function handleSelect(id) {
+    setSelectedID(id);
+  };
+
+  function handleCloseID(){
+    setSelectedID(null)
+  }
+
+  //////////////////////////////////////////////
+  //              API-fetch
+  ///////////////////////////////////////////////
 
   useEffect(function () {
     async function fetchMovies() {
@@ -120,7 +131,7 @@ export default function App() {
         <List>
           {/*isLoading ? <Loading /> : <MovieList movies={movies}/>*/}
           {isLoading && <Loading/>}
-          { !isLoading && !error && <MovieList movies={movies}/>}
+          { !isLoading && !error && <MovieList movies={movies} onSelec/>}
           {error && <Error message={error} />}
         </List>
         <List >
@@ -262,12 +273,12 @@ function List({ children }) {
 //                     MovieList
 //////////////////////////////////////////////////////////
 
-function MovieList({ movies }) {
+function MovieList({ movies, onSelectedID }) {
 
   return(
-    <ul className="list">
+    <ul className="list list-movies">
       {movies?.map((movie) => (
-        <MovieComp movie={movie} key={movie.imdbID}/>
+        <MovieComp movie={movie} key={movie.imdbID} onSelectedID={onSelectedID}/>
       ))}
     </ul>
   )
@@ -277,9 +288,9 @@ function MovieList({ movies }) {
 //                     MovieComp
 //////////////////////////////////////////////////////////
 
-function MovieComp({ movie }) {
+function MovieComp({ movie, onSelectedID }) {
   return(
-    <li key={movie.imdbID}>
+    <li onClick={() => onSelectedID(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
