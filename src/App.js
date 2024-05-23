@@ -70,7 +70,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] =useState("");
-  const [selectedID, setSelectedID] = useState(null)
+  const [selectedID, setSelectedID] = useState(null);
 
 
 
@@ -78,13 +78,13 @@ export default function App() {
   //             function-handle
   ///////////////////////////////////////////////
   
-  function handleSelect(id) {
+  function handleSelectID(id) {
     setSelectedID(id);
   };
 
-  function handleCloseID(){
-    setSelectedID(null)
-  }
+  function handleCloseSelected(){
+    setSelectedID(null);
+  };
 
   //////////////////////////////////////////////
   //              API-fetch
@@ -131,12 +131,12 @@ export default function App() {
         <List>
           {/*isLoading ? <Loading /> : <MovieList movies={movies}/>*/}
           {isLoading && <Loading/>}
-          { !isLoading && !error && <MovieList movies={movies} onSelec/>}
+          { !isLoading && !error && <MovieList movies={movies} onSelectedID={handleSelectID} />}
           {error && <Error message={error} />}
         </List>
         <List >
           { 
-            selectedID ? <MovieSummary selectedID={selectedID}/> : <>
+            selectedID ? <MovieSummary selectedID={selectedID} onCloseSelected={handleCloseSelected}/> : <>
             <Watched watched={watched}/>
             <RateWatched watched={watched}/>
           </>}
@@ -154,6 +154,7 @@ export default function App() {
 //////////////////////////////////////////////////////////
 
 function Loading() {
+
   return(
     <p className="loader">Loading...</p>
   )
@@ -166,12 +167,14 @@ function Loading() {
 //////////////////////////////////////////////////////////
 
 function Error({ message }) {
+
   return(
     <p className="error">
       <span>X</span>{message}
     </p>
   )
 };
+
 
 //////////////////////////////////////////////////////////
 //                       NavBar
@@ -211,6 +214,7 @@ function Search({ query, setQuery }) {
 //////////////////////////////////////////////////////////
 
 function Logo() {
+
   return(
     <div className="logo">
       <span role="img">🍿</span>
@@ -225,6 +229,7 @@ function Logo() {
 //////////////////////////////////////////////////////////
 
 function FoundCounter({ movies }) {
+
   return(
     <p className="num-results">
       Found <strong>{movies.length}</strong> results
@@ -273,7 +278,7 @@ function List({ children }) {
 //                     MovieList
 //////////////////////////////////////////////////////////
 
-function MovieList({ movies, onSelectedID }) {
+function MovieList({ movies, onSelectedID}) {
 
   return(
     <ul className="list list-movies">
@@ -283,6 +288,7 @@ function MovieList({ movies, onSelectedID }) {
     </ul>
   )
 };
+
 
 //////////////////////////////////////////////////////////
 //                     MovieComp
@@ -299,20 +305,27 @@ function MovieComp({ movie, onSelectedID }) {
           <span>{movie.Year}</span>
         </p>
       </div>
-   </li>
+    </li>
   )
 };
+
 
 //////////////////////////////////////////////////////////
 //                  MovieSummary
 //////////////////////////////////////////////////////////
 
 
-function MovieSummary({ selectedID }) {
+function MovieSummary({ selectedID, onCloseSelected }) {
   return(
-    <div className="detail">{selectedID}</div>
+    <div className="detail">
+      <button className="btn-back" onClick={onCloseSelected}>
+        &larr;
+      </button>
+      {selectedID}
+    </div>
   )
 };
+
 
 //////////////////////////////////////////////////////////
 //                      Watched
@@ -348,6 +361,7 @@ function Watched({ watched }) {
     </div>
   )
 }
+
 
 //////////////////////////////////////////////////////////
 //                    RateWatched
