@@ -66,11 +66,14 @@ export default function App() {
 
   const [query, setQuery] = useState("");
 
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] =useState();
-  const querySearch = "terminator";
+  const [error, setError] =useState("");
+  const [selectedID, setSelectedID] = useState(null)
+  
+  
+  // const querySearch = "terminator";
 
   //////////////
   //   API - fetch ("link with KEY")
@@ -82,7 +85,7 @@ export default function App() {
       setIsLoading(true);
       setError("");
 
-      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&${querySearch}`);
+      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
 
       if (!res.ok)
         throw new Error("Somthing went wring with fetching movies");
@@ -121,8 +124,11 @@ export default function App() {
           {error && <Error message={error} />}
         </List>
         <List >
-          <Watched watched={watched}/>
-          <RateWatched watched={watched}/>
+          { 
+            selectedID ? <MovieSummary selectedID={selectedID}/> : <>
+            <Watched watched={watched}/>
+            <RateWatched watched={watched}/>
+          </>}
         </List>
       </Main>
     </>
@@ -268,7 +274,7 @@ function MovieList({ movies }) {
 };
 
 //////////////////////////////////////////////////////////
-//                     MovieList
+//                     MovieComp
 //////////////////////////////////////////////////////////
 
 function MovieComp({ movie }) {
@@ -286,6 +292,16 @@ function MovieComp({ movie }) {
   )
 };
 
+//////////////////////////////////////////////////////////
+//                  MovieSummary
+//////////////////////////////////////////////////////////
+
+
+function MovieSummary({ selectedID }) {
+  return(
+    <div className="detail">{selectedID}</div>
+  )
+};
 
 //////////////////////////////////////////////////////////
 //                      Watched
