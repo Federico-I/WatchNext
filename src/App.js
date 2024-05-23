@@ -49,13 +49,13 @@ const tempWatchedData = [
 ];
 
 
+////////////////// movie API KEY ///////////////////////
+
+const KEY = `${process.env.OMDB_API_KEY}`;
+
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
-
-////////////////// movie API ///////////////////////
-
-const KEY = "";
 
 
 //////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ export default function App() {
       setIsLoading(true);
       setError("");
 
-      const res = await fetch(`${query}`);
+      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&${querySearch}`);
 
       if (!res.ok)
         throw new Error("Somthing went wring with fetching movies");
