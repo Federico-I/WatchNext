@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import StarRating from "./StarRating.js";
+import StartRating from "./StarRating.js";
 
 const tempMovieData = [
   {
@@ -316,6 +318,11 @@ function MovieComp({ movie, onSelectedID }) {
 
 
 function MovieSummary({ selectedID, onCloseSelected }) {
+  const [movieInfo, setMovieInfo] = useState({});
+
+  const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Gnere: genre} = movieInfo;
+
+  console.log(title, year);
 
   useEffect(function() {
     async function getMovieDetails(){
@@ -332,10 +339,31 @@ function MovieSummary({ selectedID, onCloseSelected }) {
 
   return(
     <div className="detail">
-      <button className="btn-back" onClick={onCloseSelected}>
-        &larr;
-      </button>
-      {selectedID}
+      <header>
+        <button className="btn-back" onClick={onCloseSelected}>
+          &larr;
+        </button>
+        <img src={poster} alt={`Psoter of movie ${movieInfo}`}/>
+        <div className="details-overview">
+          <h2>{title}</h2>
+          <p>
+            {released} &bull; {runtime}
+          </p>
+          <p>{genre}</p>
+          <p><span>*</span>{imdbRating} IMDB Rating</p>
+        </div>
+      </header>
+
+      <section>
+        <div className="rating">
+          <StartRating maxRating={10} size={24}/>
+        </div>
+        <p>
+          <em>{plot}</em>
+        </p>
+        <p>Starring {actors}</p>
+        <p>Directed by {director}</p>
+      </section>
     </div>
   )
 };
