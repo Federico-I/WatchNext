@@ -143,7 +143,7 @@ export default function App() {
         <List >
           { 
             selectedID ? 
-              <MovieSummary selectedID={selectedID} onCloseSelected={handleCloseSelected} onAddWatched={handleAddWatched}/> : <>
+              <MovieSummary selectedID={selectedID} onCloseSelected={handleCloseSelected} onAddWatched={handleAddWatched} watched={watched}/> : <>
               <Watched watched={watched}/>
               <RateWatched watched={watched}/>
           </>}
@@ -322,10 +322,12 @@ function MovieComp({ movie, onSelectedID }) {
 //////////////////////////////////////////////////////////
 
 
-function MovieSummary({ selectedID, onCloseSelected, onAddWatched }) {
+function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   const [movieInfo, setMovieInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [personalRating, setPersonalRating] = useState();
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedID);
 
   const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Gnere: genre} = movieInfo;
 
@@ -337,6 +339,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched }) {
       poster,
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split("").at(0)),
+      personalRating,
     }
 
     onAddWatched(newWatchedMovie);
@@ -379,11 +382,17 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched }) {
 
           <section>
             <div className="rating">
-              <StartRating maxRating={10} size={24} onSetRating={setPersonalRating}/>
+              { !isWatched ? 
+                <>
+                  <StartRating maxRating={10} size={24} onSetRating={setPersonalRating}/>
 
-              <button className="btn-add" onClick={handleAdd}>
-                + Add movie
-              </button>
+                  {personalRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add movie
+                    </button>
+                  )};
+                </>
+              : <p>Movie rated already</p>}
             </div>
             <p>
               <em>{plot}</em>
