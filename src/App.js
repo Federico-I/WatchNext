@@ -325,10 +325,23 @@ function MovieComp({ movie, onSelectedID }) {
 function MovieSummary({ selectedID, onCloseSelected, onAddWatched }) {
   const [movieInfo, setMovieInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [personalRating, setPersonalRating] = useState();
 
   const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Gnere: genre} = movieInfo;
 
+  function handleAdd() {
+    const newWatchedMovie = {
+      imdbID: selectedID,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split("").at(0)),
+    }
 
+    onAddWatched(newWatchedMovie);
+    onCloseSelected();
+  };
 
   useEffect(function() {
     async function getMovieDetails(){
@@ -366,9 +379,9 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched }) {
 
           <section>
             <div className="rating">
-              <StartRating maxRating={10} size={24}/>
+              <StartRating maxRating={10} size={24} onSetRating={setPersonalRating}/>
 
-              <button className="btn-add" onClick={handleAddWatched}>
+              <button className="btn-add" onClick={handleAdd}>
                 + Add movie
               </button>
             </div>
@@ -444,8 +457,8 @@ function RateWatched({ watched }) {
 function MovieCompo({ movie }) {
   return(
     <li key={movie.imdbID}>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
+      <img src={movie.poster} alt={`${movie.title} poster`} />
+      <h3>{movie.title}</h3>
       <div>
         <p>
           <span>⭐️</span>
