@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import StarRating from "./StarRating.js";
 import StartRating from "./StarRating.js";
 
 const tempMovieData = [
@@ -88,6 +87,10 @@ export default function App() {
     setSelectedID(null);
   };
 
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+  };
+
   //////////////////////////////////////////////
   //              API-fetch
   ///////////////////////////////////////////////
@@ -133,14 +136,16 @@ export default function App() {
         <List>
           {/*isLoading ? <Loading /> : <MovieList movies={movies}/>*/}
           {isLoading && <Loading/>}
-          { !isLoading && !error && <MovieList movies={movies} onSelectedID={handleSelectID} />}
+          { !isLoading && !error && 
+            <MovieList movies={movies} onSelectedID={handleSelectID} />}
           {error && <Error message={error} />}
         </List>
         <List >
           { 
-            selectedID ? <MovieSummary selectedID={selectedID} onCloseSelected={handleCloseSelected}/> : <>
-            <Watched watched={watched}/>
-            <RateWatched watched={watched}/>
+            selectedID ? 
+              <MovieSummary selectedID={selectedID} onCloseSelected={handleCloseSelected} onAddWatched={handleAddWatched}/> : <>
+              <Watched watched={watched}/>
+              <RateWatched watched={watched}/>
           </>}
         </List>
       </Main>
@@ -317,13 +322,13 @@ function MovieComp({ movie, onSelectedID }) {
 //////////////////////////////////////////////////////////
 
 
-function MovieSummary({ selectedID, onCloseSelected }) {
+function MovieSummary({ selectedID, onCloseSelected, onAddWatched }) {
   const [movieInfo, setMovieInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Gnere: genre} = movieInfo;
 
-  console.log(title, year);
+
 
   useEffect(function() {
     async function getMovieDetails(){
@@ -362,6 +367,10 @@ function MovieSummary({ selectedID, onCloseSelected }) {
           <section>
             <div className="rating">
               <StartRating maxRating={10} size={24}/>
+
+              <button className="btn-add" onClick={handleAddWatched}>
+                + Add movie
+              </button>
             </div>
             <p>
               <em>{plot}</em>
