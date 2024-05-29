@@ -91,6 +91,10 @@ export default function App() {
     setWatched((watched) => [...watched, movie]);
   };
 
+  function handleDeleteWatched(movieID){
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== movieID));
+  };
+
   //////////////////////////////////////////////
   //              API-fetch
   ///////////////////////////////////////////////
@@ -144,8 +148,8 @@ export default function App() {
           { 
             selectedID ? 
               <MovieSummary selectedID={selectedID} onCloseSelected={handleCloseSelected} onAddWatched={handleAddWatched} watched={watched}/> : <>
-              <Watched watched={watched}/>
-              <RateWatched watched={watched}/>
+              <WatchedStats watched={watched}/>
+              <WatchedMovies watched={watched} onDelete={handleDeleteWatched}/>
           </>}
         </List>
       </Main>
@@ -290,7 +294,7 @@ function MovieList({ movies, onSelectedID}) {
   return(
     <ul className="list list-movies">
       {movies?.map((movie) => (
-        <MovieComp movie={movie} key={movie.imdbID} onSelectedID={onSelectedID}/>
+        <MovieCompList movie={movie} key={movie.imdbID} onSelectedID={onSelectedID}/>
       ))}
     </ul>
   )
@@ -301,7 +305,7 @@ function MovieList({ movies, onSelectedID}) {
 //                     MovieComp
 //////////////////////////////////////////////////////////
 
-function MovieComp({ movie, onSelectedID }) {
+function MovieCompList({ movie, onSelectedID }) {
   return(
     <li onClick={() => onSelectedID(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -413,7 +417,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 //                      Watched
 //////////////////////////////////////////////////////////
 
-function Watched({ watched }) {
+function WatchedStats({ watched }) {
 
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
@@ -429,11 +433,11 @@ function Watched({ watched }) {
             </p>
             <p>
               <span>⭐️</span>
-              <span>{avgImdbRating}</span>
+              <span>{avgImdbRating.toFixed(2)}</span>
             </p>
             <p>
               <span>🌟</span>
-              <span>{avgUserRating}</span>
+              <span>{avgUserRating.toFixed(2)}</span>
             </p>
             <p>
               <span>⏳</span>
@@ -449,12 +453,12 @@ function Watched({ watched }) {
 //                    RateWatched
 //////////////////////////////////////////////////////////
 
-function RateWatched({ watched }) {
+function WatchedMovies({ watched, onDelete }) {
 
   return(
     <ul className="list">
       {watched.map((movie) => (
-        <MovieCompo movie={movie} key={movie.imdbID}/>
+        <MovieItem movie={movie} key={movie.imdbID} onDelete={onDelete}/>
       ))}
     </ul>
   )
@@ -465,7 +469,7 @@ function RateWatched({ watched }) {
 //                    MovieComp
 //////////////////////////////////////////////////////////
 
-function MovieCompo({ movie }) {
+function MovieItem({ movie, onDelete }) {
   return(
     <li key={movie.imdbID}>
       <img src={movie.poster} alt={`${movie.title} poster`} />
@@ -483,6 +487,8 @@ function MovieCompo({ movie }) {
           <span>⏳</span>
           <span>{movie.runtime} min</span>
         </p>
+
+        <button className="btn-delete" onClick={() => onDelete(movie.imdbID)}>X</button>
       </div>
     </li>
   )
