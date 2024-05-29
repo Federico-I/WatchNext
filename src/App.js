@@ -335,7 +335,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
   const userRated = watched.find((movie) => movie.imdbID === selectedID)?.userRating;
 
-  const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Gnere: genre} = movieInfo;
+  const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -366,6 +366,12 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
     getMovieDetails();
   }, [selectedID]);
+
+  useEffect(function () {
+
+    if(!title) return;
+    document.title = `Movie | ${title}`;
+  }, [title]);
 
   return(
     <div className="detail">
