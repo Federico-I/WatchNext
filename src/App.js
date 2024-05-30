@@ -371,6 +371,10 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
     if(!title) return;
     document.title = `Movie | ${title}`;
+
+    return function () {
+      document.title = "2Watch";
+    } // Cleaning Function
   }, [title]);
 
   return(
