@@ -99,22 +99,32 @@ export default function App() {
   //              API-fetch
   ///////////////////////////////////////////////
 
-  useEffect(function () {
-    async function fetchMovies() {
+  useEffect(
+    function () {
+      const controller = new AbortController();
+    
+      async function fetchMovies() {
       try {
       setIsLoading(true);
       setError("");
 
-      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
 
       if (!res.ok)
         throw new Error("Somthing went wring with fetching movies");
 
         const data = await res.json();
         if (data.Response === "False") throw new Error("Movie not found");
+
       setMovies(data.Search);
+      setError("");
       } catch (err) {
       console.error(err.message);
+
+        if(err.name !== "AbortError") {
+          setError(err.message);
+        }
+
       setError(err.message);
       } finally {
         setIsLoading(false)
@@ -127,6 +137,10 @@ export default function App() {
       return;
     }
     fetchMovies();
+
+    return function(){
+      controller.abort();
+    }
   }, [query]);
 
   
@@ -352,7 +366,9 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     onCloseSelected();
   };
 
-  useEffect(function() {
+  useEffect(
+    function() {
+
     async function getMovieDetails(){
       setIsLoading(true);
       const res = await fetch(
