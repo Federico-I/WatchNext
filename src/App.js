@@ -95,6 +95,8 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== movieID));
   };
 
+
+
   //////////////////////////////////////////////
   //              API-fetch
   ///////////////////////////////////////////////
@@ -365,6 +367,15 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     onAddWatched(newWatchedMovie);
     onCloseSelected();
   };
+
+  useEffect(function() {
+    document.addEventListener("keydown", function(e){
+      if(e.code === "Escape") {
+        onCloseSelected();
+        console.log("CLOSING");
+      }
+    })
+  }, [onCloseSelected]); 
 
   useEffect(
     function() {
