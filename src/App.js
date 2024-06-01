@@ -357,6 +357,30 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
   const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
 
+  /////////////////////////////////////
+  //    What NOT to do with Hooks
+  /////////////////////////////////////
+
+  // if (imdbRating > 8) return <p>Best Mobie!</p>;
+  // if (imdbRating) 
+
+    /////////////////////////////////
+    // NOT to DO 
+
+  // const [isTpo,setIsTop] = useState(imdbRating > 8);
+  // console.log(istop);
+  //useEffect(
+  //  function () {
+  //    setIsTop(imdbRating > 8);
+  //  },
+  //  [imdbRating]
+  //);
+
+  ///////////////////////////
+  // to DO
+
+  // const isTop = imdbRating > 8;
+
   function handleAdd() {
     const newWatchedMovie = {
       imdbID: selectedID,
