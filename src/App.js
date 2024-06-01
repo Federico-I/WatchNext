@@ -368,13 +368,21 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     onCloseSelected();
   };
 
-  useEffect(function() {
-    document.addEventListener("keydown", function(e){
-      if(e.code === "Escape") {
-        onCloseSelected();
-        console.log("CLOSING");
-      }
-    })
+  useEffect(
+    function() {
+      function listenESC (e) {
+        if(e.code === "Escape") {
+          onCloseSelected();
+          console.log("CLOSING");
+        }
+      };
+
+    document.addEventListener("keydown", listenESC);
+
+    return function() {
+      document.removeEventListener("keydown", listenESC)
+    };
+    
   }, [onCloseSelected]); 
 
   useEffect(
