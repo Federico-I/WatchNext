@@ -65,9 +65,9 @@ const average = (arr) =>
 
 export default function App() {
 
-  const [query, setQuery] = useState("terminator");
+  const [query, setQuery] = useState("");
 
-  const [movies, setMovies] = useState([]);
+  const [displayMovies, setDisplayMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] =useState("");
@@ -106,6 +106,7 @@ export default function App() {
       const controller = new AbortController();
     
       async function fetchMovies() {
+
       try {
       setIsLoading(true);
       setError("");
@@ -115,15 +116,16 @@ export default function App() {
       if (!res.ok)
         throw new Error("Somthing went wring with fetching movies");
 
-        const data = await res.json();
-        if (data.Response === "False") throw new Error("Movie not found");
+      const data = await res.json();
+      if (data.Response === "False") throw new Error("Movie not found");
 
-      setMovies(data.Search);
+      setDisplayMovies(data.Search);
       setError("");
+
       } catch (err) {
-      console.error(err.message);
 
         if(err.name !== "AbortError") {
+          console.log(err.message);
           setError(err.message);
         }
 
@@ -134,10 +136,12 @@ export default function App() {
     }
 
     if (query.length < 3) {
-      setMovies([]);
+      setDisplayMovies([]);
       setError("");
       return;
     }
+
+    handleCloseSelected();
     fetchMovies();
 
     return function(){
@@ -150,14 +154,14 @@ export default function App() {
     <>
       <NavBar>
         <Search query={query} setQuery={setQuery}/>
-        <FoundCounter movies={movies}/>
+        <FoundCounter movies={displayMovies}/>
       </NavBar>
       <Main>
         <List>
           {/*isLoading ? <Loading /> : <MovieList movies={movies}/>*/}
           {isLoading && <Loading/>}
           { !isLoading && !error && 
-            <MovieList movies={movies} onSelectedID={handleSelectID} />}
+            <MovieList movies={displayMovies} onSelectedID={handleSelectID} />}
           {error && <Error message={error} />}
         </List>
         <List >
@@ -373,7 +377,6 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
       function listenESC (e) {
         if(e.code === "Escape") {
           onCloseSelected();
-          console.log("CLOSING");
         }
       };
 
@@ -382,7 +385,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     return function() {
       document.removeEventListener("keydown", listenESC)
     };
-    
+
   }, [onCloseSelected]); 
 
   useEffect(
@@ -394,8 +397,8 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
         `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedID}`
       );
 
-      const data = res.json();
-      console.log(data);
+      const data = await res.json();
+      setMovieInfo(data);
       setIsLoading(false);
     }
 
