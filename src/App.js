@@ -89,6 +89,8 @@ export default function App() {
 
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
+
+    localStorage.setItem("watched", JSON.stringify([...watched, watched, movie]));
   };
 
   function handleDeleteWatched(movieID){
@@ -395,10 +397,10 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     }
 
     onAddWatched(newWatchedMovie);
-    // onCloseSelected();
+    onCloseSelected();
 
-    setPersonalRating(Number(imdbRating));
-    setUserAvgRating(() => (userAvgRating + personalRating) / 2);
+    // setPersonalRating(Number(imdbRating));
+    // setUserAvgRating(() => (userAvgRating + personalRating) / 2);
   };
 
   useEffect(
@@ -462,6 +464,8 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
               <p><span>*</span>{imdbRating} IMDB Rating</p>
             </div>
           </header>
+
+          {/*<p>{userAvgRating}</ p>*/}
 
           <section>
             <div className="rating">
