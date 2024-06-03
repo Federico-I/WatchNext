@@ -68,10 +68,17 @@ export default function App() {
   const [query, setQuery] = useState("");
 
   const [displayMovies, setDisplayMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] =useState("");
   const [selectedID, setSelectedID] = useState(null);
+
+  // const [watched, setWatched] = useState([]);
+
+  const [watched, setWatched] = useState(function () {
+    const localSavedValue = localStorage.getItem("watched") 
+    return JSON.parse(localSavedValue);
+  });
 
 
 
@@ -90,7 +97,7 @@ export default function App() {
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
 
-    localStorage.setItem("watched", JSON.stringify([...watched, watched, movie]));
+    // localStorage.setItem("watched", JSON.stringify([...watched, watched, movie]));
   };
 
   function handleDeleteWatched(movieID){
@@ -102,6 +109,13 @@ export default function App() {
   //////////////////////////////////////////////
   //              API-fetch
   ///////////////////////////////////////////////
+
+  useEffect( 
+    function() {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    }, 
+      [watched]
+  );
 
   useEffect(
     function () {
