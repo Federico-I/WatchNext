@@ -245,9 +245,22 @@ function Search({ query, setQuery }) {
 
   const focusEl = useRef(null);
 
-  useEffect(function() {
-    focusEl.current.foocus();
-  }, []);
+  useEffect(
+    function() {
+      function callBack(e) {
+        if(document.activeElement === focusEl.current)
+          return;
+
+        if(e.code === "Enter") {
+          focusEl.current.foocus();
+          setQuery("");
+        }
+      }
+
+      document.addEventListener("keydown", callBack);
+      return () => document.addEventListener("keydown", callBack);
+
+  }, [setQuery]);
 
   {/* useEffect( function() {
     const el = document.querySelector(".search");
