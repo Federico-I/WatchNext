@@ -244,6 +244,12 @@ function NavBar({ children }) {
 
 function Search({ query, setQuery }) {
 
+  useEffect( function() {
+    const el = document.querySelector(".search");
+    console.loge(el);
+    el.focus();
+  }, []);
+
   return(
     <input
     className="search"
