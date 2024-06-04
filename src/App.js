@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import StartRating from "./StarRating.js";
 
 const tempMovieData = [
@@ -244,11 +243,17 @@ function NavBar({ children }) {
 
 function Search({ query, setQuery }) {
 
-  useEffect( function() {
+  const focusEl = useRef(null);
+
+  useEffect(function() {
+    focusEl.current.foocus();
+  }, []);
+
+  {/* useEffect( function() {
     const el = document.querySelector(".search");
     console.loge(el);
     el.focus();
-  }, []);
+  }, []); */}
 
   return(
     <input
@@ -257,6 +262,7 @@ function Search({ query, setQuery }) {
     placeholder="Search movies..."
     value={query}
     onChange={(e) => setQuery(e.target.value)}
+    ref={focusEl}
   />
   )
 };
