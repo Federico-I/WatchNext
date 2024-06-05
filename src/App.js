@@ -390,10 +390,16 @@ function MovieCompList({ movie, onSelectedID }) {
 function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   const [movieInfo, setMovieInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [personalRating, setPersonalRating] = useState();
+  const [personalRating, setPersonalRating] = useState("");
+
+  const countRateRef = useRef(0);
+
+  useEffect(
+    function() {
+      if (personalRating) countRateRef.current = countRateRef.current + 1;
+  }, [personalRating]);
 
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedID);
-
   const userRated = watched.find((movie) => movie.imdbID === selectedID)?.userRating;
 
   const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
@@ -433,6 +439,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split("").at(0)),
       personalRating,
+      countRateRefDecisions: countRateRef.current,
     }
 
     onAddWatched(newWatchedMovie);
