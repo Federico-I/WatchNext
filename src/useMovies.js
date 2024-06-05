@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
 
-export function useMovies() {
 
-    const [displayMovies, setDisplayMovies] = useState([]);
-  
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] =useState("");
+////////////////// movie API KEY ///////////////////////
+
+  const KEY = `${process.env.OMDB_API_KEY}`;
+
+/////////////////////////////////////////
+//          Movie Hook
+/////////////////////////////////////////
+
+  export function useMovies(query) {
+
+  const [displayMovies, setDisplayMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] =useState("");
 
     
   useEffect(
@@ -48,7 +56,7 @@ export function useMovies() {
       return;
     }
 
-    handleCloseSelected();
+    // handleCloseSelected();
     fetchMovies();
 
     return function(){
@@ -56,5 +64,5 @@ export function useMovies() {
     }
   }, [query]);
 
-
+  return {displayMovies, isLoading, error};
 };

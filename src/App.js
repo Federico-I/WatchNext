@@ -66,9 +66,7 @@ const average = (arr) =>
 export default function App() {
 
   const [query, setQuery] = useState("");
-
-  useMovies(query);
-
+  const {displayMovies, isLoading, error} = useMovies(query);
   const [selectedID, setSelectedID] = useState(null);
 
   // const [watched, setWatched] = useState([]);
@@ -77,8 +75,6 @@ export default function App() {
     const localSavedValue = localStorage.getItem("watched") 
     return JSON.parse(localSavedValue);
   });
-
-
 
   //////////////////////////////////////////////
   //             function-handle
