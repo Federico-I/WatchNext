@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import StartRating from "./StarRating.js";
 import { useMovies } from "./useMovies.js";
 import { useLocalStorageState } from "./useLocalStorageState.js";
+import { useKey } from "./useKey.js";
 
 const tempMovieData = [
   {
@@ -188,28 +189,34 @@ function Search({ query, setQuery }) {
 
   const focusEl = useRef(null);
 
-  useEffect(
-    function() {
-      function callBack(e) {
-        if(document.activeElement === focusEl.current)
-          return;
+  useKey("Enter", function() {
+    if(document.activeElement === focusEl.current) return;
+    focusEl.current.foocus();
+    setQuery("");
+  });
 
-        if(e.code === "Enter") {
-          focusEl.current.foocus();
-          setQuery("");
-        }
-      }
+  // useEffect(
+  //   function() {
+  //     function callBack(e) {
+  //       if(document.activeElement === focusEl.current)
+  //         return;
 
-      document.addEventListener("keydown", callBack);
-      return () => document.addEventListener("keydown", callBack);
+  //       if(e.code === "Enter") {
+  //         focusEl.current.foocus();
+  //         setQuery("");
+  //       }
+  //     }
 
-  }, [setQuery]);
+  //     document.addEventListener("keydown", callBack);
+  //     return () => document.addEventListener("keydown", callBack);
 
-  {/* useEffect( function() {
-    const el = document.querySelector(".search");
-    console.loge(el);
-    el.focus();
-  }, []); */}
+  // }, [setQuery]);
+
+  // useEffect( function() {
+  //   const el = document.querySelector(".search");
+  //   console.loge(el);
+  //   el.focus();
+  // }, []); 
 
   return(
     <input
@@ -392,21 +399,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     // setUserAvgRating(() => (userAvgRating + personalRating) / 2);
   };
 
-  useEffect(
-    function() {
-      function listenESC (e) {
-        if(e.code === "Escape") {
-          onCloseSelected();
-        }
-      };
-
-    document.addEventListener("keydown", listenESC);
-
-    return function() {
-      document.removeEventListener("keydown", listenESC)
-    };
-
-  }, [onCloseSelected]); 
+  useKey("Escape", onCloseSelected);
 
   useEffect(
     function() {
