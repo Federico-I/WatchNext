@@ -409,11 +409,24 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   ///////////////////////////////////
   useKey("Escape", onCloseSelected);
 
-
   ////////////////////////////////////
   // Before - Cucstom Hook "ESC" key
   ///////////////////////////////////
-  
+  // useEffect(
+  //   function () {
+  //     function callBackEscape(e) {
+  //       if(e.code === "Escape") {
+  //         onCloseSelected();
+  //       }
+  //     }
+
+  //     document.addEventListener("keydown", callBackEscape);
+
+  //     return function () {
+  //       document.removeEventListener("keydown", callBackEscape);
+  //     };
+  //   }, [onCloseSelected]
+  // );
   ///////////////////////////////////
 
   useEffect(
