@@ -195,6 +195,9 @@ function Search({ query, setQuery }) {
     setQuery("");
   });
 
+  /////////////////////////////////////////
+  //    "Enter" - Before Custom Hooks
+  /////////////////////////////////////////
   // useEffect(
   //   function() {
   //     function callBack(e) {
@@ -211,12 +214,13 @@ function Search({ query, setQuery }) {
   //     return () => document.addEventListener("keydown", callBack);
 
   // }, [setQuery]);
+  //////////////////////////////////////////
 
-  // useEffect( function() {
-  //   const el = document.querySelector(".search");
-  //   console.loge(el);
-  //   el.focus();
-  // }, []); 
+  useEffect( function() {
+     const el = document.querySelector(".search");
+     console.loge(el);
+     el.focus();
+   }, []); 
 
   return(
     <input
@@ -357,7 +361,6 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   /////////////////////////////////////
   //    What NOT to do with Hooks
   /////////////////////////////////////
-
   // if (imdbRating > 8) return <p>Best Mobie!</p>;
   // if (imdbRating) 
 
@@ -372,11 +375,13 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   //  },
   //  [imdbRating]
   //);
+  //////////////////////////
 
   ///////////////////////////
-  // to DO
+  //       to DO
   //////////////////////////
   // const isTop = imdbRating > 8;
+  //////////////////////////
   
   const [userAvgRating, setUserAvgRating] = useState(0);
 
@@ -399,7 +404,17 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     // setUserAvgRating(() => (userAvgRating + personalRating) / 2);
   };
 
+  ////////////////////////////////////
+  //    Cucstom Hook "ESC" key
+  ///////////////////////////////////
   useKey("Escape", onCloseSelected);
+
+
+  ////////////////////////////////////
+  // Before - Cucstom Hook "ESC" key
+  ///////////////////////////////////
+  
+  ///////////////////////////////////
 
   useEffect(
     function() {
@@ -418,6 +433,9 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     getMovieDetails();
   }, [selectedID]);
 
+  ///////////////////////////////////////////////
+  //  Chnage browser tab name to movie-title
+  ///////////////////////////////////////////////
   useEffect(function () {
 
     if(!title) return;
@@ -427,6 +445,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
       document.title = "2Watch";
     } 
   }, [title]);
+  ///////////////////////////////////////////////
 
   return(
     <div className="detail">
