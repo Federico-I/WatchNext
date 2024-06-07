@@ -375,7 +375,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
   ///////////////////////////
   // to DO
-
+  //////////////////////////
   // const isTop = imdbRating > 8;
   
   const [userAvgRating, setUserAvgRating] = useState(0);
@@ -425,7 +425,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
     return function () {
       document.title = "2Watch";
-    } // Cleaning Function
+    } 
   }, [title]);
 
   return(
@@ -447,7 +447,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
             </div>
           </header>
 
-          {/*<p>{userAvgRating}</ p>*/}
+          {/*<p>{userAvgRating}</ p>*/} 
 
           <section>
             <div className="rating">

@@ -56,7 +56,6 @@ import { useState, useEffect } from "react";
       return;
     }
 
-    // handleCloseSelected();
     fetchMovies();
 
     return function(){
