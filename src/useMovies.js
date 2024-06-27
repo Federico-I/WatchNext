@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 
-
 ////////////////// movie API KEY ///////////////////////
-
   const KEY = `${process.env.OMDB_API_KEY}`;
 
 /////////////////////////////////////////

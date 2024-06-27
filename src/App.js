@@ -51,20 +51,15 @@ const tempWatchedData = [
   },
 ];
 
-
 ////////////////// movie API KEY ///////////////////////
-
 const KEY = `${process.env.OMDB_API_KEY}`;
-
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-
 //////////////////////////////////////////////////////////
 //                       APP
 //////////////////////////////////////////////////////////
-
 export default function App() {
 
   const [query, setQuery] = useState("");
@@ -73,15 +68,10 @@ export default function App() {
 
   const [watched, setWatched] = useLocalStorageState([], "watched");
 
-  // const [watched, setWatched] = useState(function () {
-  //   const localSavedValue = localStorage.getItem("watched") 
-  //   return JSON.parse(localSavedValue);
-  // });
-
   //////////////////////////////////////////////
   //             function-handle
   ///////////////////////////////////////////////
-  
+
   function handleSelectID(id) {
     setSelectedID(selectedID => (id === selectedID ? null : id ));
   };
@@ -92,23 +82,15 @@ export default function App() {
 
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
-
-    // localStorage.setItem("watched", JSON.stringify([...watched, watched, movie]));
   };
 
   function handleDeleteWatched(movieID){
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== movieID));
   };
 
-
-
   //////////////////////////////////////////////
   //              API-fetch
   ///////////////////////////////////////////////
-
-
-
-  
   return(
     <>
       <NavBar>
@@ -133,29 +115,21 @@ export default function App() {
         </List>
       </Main>
     </>
-  )
-
+  );
 };
-
-
 
 //////////////////////////////////////////////////////////
 //                    LoadingComp
 //////////////////////////////////////////////////////////
-
 function Loading() {
-
   return(
     <p className="loader">Loading...</p>
   )
 };
 
-
-
 //////////////////////////////////////////////////////////
 //                    ErrorComp
 //////////////////////////////////////////////////////////
-
 function Error({ message }) {
 
   return(
@@ -165,11 +139,9 @@ function Error({ message }) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                       NavBar
 //////////////////////////////////////////////////////////
-
 function NavBar({ children }) {
 
   return(
@@ -180,11 +152,9 @@ function NavBar({ children }) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                     Search Bar
 //////////////////////////////////////////////////////////
-
 function Search({ query, setQuery }) {
 
   const focusEl = useRef(null);
@@ -218,7 +188,6 @@ function Search({ query, setQuery }) {
 
   useEffect( function() {
      const el = document.querySelector(".search");
-     console.loge(el);
      el.focus();
    }, []); 
 
@@ -234,11 +203,9 @@ function Search({ query, setQuery }) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                       Logo
 //////////////////////////////////////////////////////////
-
 function Logo() {
 
   return(
@@ -249,11 +216,9 @@ function Logo() {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                   FoundCounter
 //////////////////////////////////////////////////////////
-
 function FoundCounter({ movies }) {
 
   return(
@@ -263,11 +228,9 @@ function FoundCounter({ movies }) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                       Main
 //////////////////////////////////////////////////////////
-
 function Main({ children }) {
 
   return (
@@ -279,11 +242,9 @@ function Main({ children }) {
   );
 };
 
-
 //////////////////////////////////////////////////////////
 //                     ListComp
 //////////////////////////////////////////////////////////
-
 function List({ children }) {
   const [isOpen, setIsOpen1] = useState(true);
 
@@ -299,11 +260,9 @@ function List({ children }) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                     MovieList
 //////////////////////////////////////////////////////////
-
 function MovieList({ movies, onSelectedID}) {
 
   return(
@@ -315,12 +274,11 @@ function MovieList({ movies, onSelectedID}) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                     MovieComp
 //////////////////////////////////////////////////////////
-
 function MovieCompList({ movie, onSelectedID }) {
+
   return(
     <li onClick={() => onSelectedID(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -335,12 +293,9 @@ function MovieCompList({ movie, onSelectedID }) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                  MovieSummary
 //////////////////////////////////////////////////////////
-
-
 function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   const [movieInfo, setMovieInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -408,7 +363,6 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   //    Cucstom Hook "ESC" key
   ///////////////////////////////////
   useKey("Escape", onCloseSelected);
-
   ////////////////////////////////////
   // Before - Cucstom Hook "ESC" key
   ///////////////////////////////////
@@ -428,12 +382,12 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   //   }, [onCloseSelected]
   // );
   ///////////////////////////////////
-
   useEffect(
     function() {
 
     async function getMovieDetails(){
       setIsLoading(true);
+
       const res = await fetch(
         `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedID}`
       );
@@ -507,11 +461,9 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                      Watched
 //////////////////////////////////////////////////////////
-
 function WatchedStats({ watched }) {
 
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
@@ -543,13 +495,10 @@ function WatchedStats({ watched }) {
   )
 }
 
-
 //////////////////////////////////////////////////////////
 //                    RateWatched
 //////////////////////////////////////////////////////////
-
 function WatchedMovies({ watched, onDelete }) {
-
   return(
     <ul className="list">
       {watched.map((movie) => (
@@ -559,11 +508,9 @@ function WatchedMovies({ watched, onDelete }) {
   )
 };
 
-
 //////////////////////////////////////////////////////////
 //                    MovieComp
 //////////////////////////////////////////////////////////
-
 function MovieItem({ movie, onDelete }) {
   return(
     <li key={movie.imdbID}>
