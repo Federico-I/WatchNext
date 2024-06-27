@@ -51,11 +51,11 @@ const tempWatchedData = [
   },
 ];
 
-////////////////// movie API KEY ///////////////////////
-const KEY = `${process.env.OMDB_API_KEY}`;
-
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+////////////////// movie API KEY ///////////////////////
+const KEY = `${process.env.OMDB_API_KEY}`;
 
 //////////////////////////////////////////////////////////
 //                       APP
@@ -131,7 +131,6 @@ function Loading() {
 //                    ErrorComp
 //////////////////////////////////////////////////////////
 function Error({ message }) {
-
   return(
     <p className="error">
       <span>X</span>{message}
@@ -143,7 +142,6 @@ function Error({ message }) {
 //                       NavBar
 //////////////////////////////////////////////////////////
 function NavBar({ children }) {
-
   return(
       <nav className="nav-bar">
         <Logo />
@@ -156,7 +154,6 @@ function NavBar({ children }) {
 //                     Search Bar
 //////////////////////////////////////////////////////////
 function Search({ query, setQuery }) {
-
   const focusEl = useRef(null);
 
   useKey("Enter", function() {
@@ -164,27 +161,6 @@ function Search({ query, setQuery }) {
     focusEl.current.foocus();
     setQuery("");
   });
-
-  /////////////////////////////////////////
-  //    "Enter" - Before Custom Hooks
-  /////////////////////////////////////////
-  // useEffect(
-  //   function() {
-  //     function callBack(e) {
-  //       if(document.activeElement === focusEl.current)
-  //         return;
-
-  //       if(e.code === "Enter") {
-  //         focusEl.current.foocus();
-  //         setQuery("");
-  //       }
-  //     }
-
-  //     document.addEventListener("keydown", callBack);
-  //     return () => document.addEventListener("keydown", callBack);
-
-  // }, [setQuery]);
-  //////////////////////////////////////////
 
   useEffect( function() {
      const el = document.querySelector(".search");
@@ -207,7 +183,6 @@ function Search({ query, setQuery }) {
 //                       Logo
 //////////////////////////////////////////////////////////
 function Logo() {
-
   return(
     <div className="logo">
       <span role="img">🍿</span>
@@ -220,7 +195,6 @@ function Logo() {
 //                   FoundCounter
 //////////////////////////////////////////////////////////
 function FoundCounter({ movies }) {
-
   return(
     <p className="num-results">
       Found <strong>{movies.length}</strong> results
@@ -232,7 +206,6 @@ function FoundCounter({ movies }) {
 //                       Main
 //////////////////////////////////////////////////////////
 function Main({ children }) {
-
   return (
     <>
       <main className="main">
@@ -264,7 +237,6 @@ function List({ children }) {
 //                     MovieList
 //////////////////////////////////////////////////////////
 function MovieList({ movies, onSelectedID}) {
-
   return(
     <ul className="list list-movies">
       {movies?.map((movie) => (
@@ -278,7 +250,6 @@ function MovieList({ movies, onSelectedID}) {
 //                     MovieComp
 //////////////////////////////////////////////////////////
 function MovieCompList({ movie, onSelectedID }) {
-
   return(
     <li onClick={() => onSelectedID(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
