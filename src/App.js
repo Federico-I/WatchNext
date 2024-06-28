@@ -53,7 +53,6 @@ export default function App() {
       </NavBar>
       <Main>
         <List>
-          {/*isLoading ? <Loading /> : <MovieList movies={movies}/>*/}
           {isLoading && <Loading/>}
           { !isLoading && !error && 
             <MovieList movies={displayMovies} onSelectedID={handleSelectID} />}
@@ -156,11 +155,9 @@ function FoundCounter({ movies }) {
 //////////////////////////////////////////////////////////
 function Main({ children }) {
   return (
-    <>
       <main className="main">
         {children}
       </main>
-    </>
   );
 };
 
@@ -233,8 +230,9 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
   const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
 
+  const isTop = imdbRating > 8;
   
-  const [userAvgRating, setUserAvgRating] = useState(0);
+  // const [userAvgRating, setUserAvgRating] = useState(0);
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -250,7 +248,6 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
     onAddWatched(newWatchedMovie);
     onCloseSelected();
-
   };
 
   ////////////////////////////////////
@@ -274,7 +271,8 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
     }
 
     getMovieDetails();
-  }, [selectedID]);
+    }, [selectedID]
+  );
 
   ///////////////////////////////////////////////
   //  Chnage browser tab name to movie-title
@@ -286,8 +284,10 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
     return function () {
       document.title = "2Watch";
-    } 
-  }, [title]);
+    }
+    
+    }, [title]
+  );
   ///////////////////////////////////////////////
 
   return(
