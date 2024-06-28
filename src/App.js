@@ -9,7 +9,7 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 ////////////////// movie API KEY ///////////////////////
-const KEY = `${process.env.OMDB_API_KEY}`;
+const KEY = process.env.REACT_APP_OMDB_API_KEY;
 
 //////////////////////////////////////////////////////////
 //                       APP
@@ -265,7 +265,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
       setIsLoading(true);
 
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedID}`
+        `http://www.omdbapi.com/?apikey=${KEY}&${selectedID}`
       );
 
       const data = await res.json();

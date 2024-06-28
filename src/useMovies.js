@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 
 ////////////////// movie API KEY ///////////////////////
-  const KEY = `${process.env.OMDB_API_KEY}`;
+const KEY = process.env.REACT_APP_OMDB_API_KEY;
 
 /////////////////////////////////////////
 //          Movie Hook
 /////////////////////////////////////////
 
-  export function useMovies(query) {
-
+export function useMovies(query) {
   const [displayMovies, setDisplayMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] =useState("");
-
     
   useEffect(
     function () {
@@ -24,7 +22,7 @@ import { useState, useEffect } from "react";
       setIsLoading(true);
       setError("");
 
-      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,);
 
       if (!res.ok)
         throw new Error("Somthing went wring with fetching movies");

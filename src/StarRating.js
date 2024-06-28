@@ -42,7 +42,7 @@ export default function StartRating({ maxRating= 5, color= "#fcc419", size= 48, 
     return(
         <div style={containerStyle}>
             <div style={starContainerStyle}>
-                {Array.form({ length: maxRating}, (_, i) => (
+                {Array.from({ length: maxRating}, (_, i) => (
                     <Star key={1} onRate={() => handleRating(i + 1 )} full={tempRating ? tempRating >= i+ 1 : rating >= i + 1} onHoverIn={() => setTempRating(i + 1)} onHoverOut={() => setTempRating(0)}/>
                 ))}
             </div>
