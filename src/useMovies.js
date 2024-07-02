@@ -22,7 +22,7 @@ export function useMovies(query) {
       setIsLoading(true);
       setError("");
 
-      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,);
+      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
 
       if (!res.ok)
         throw new Error("Somthing went wring with fetching movies");
@@ -34,9 +34,8 @@ export function useMovies(query) {
       setError("");
 
       } catch (err) {
-
         if(err.name !== "AbortError") {
-          console.log(err.message);
+        //  console.log(err.message);
           setError(err.message);
         }
 
@@ -44,20 +43,20 @@ export function useMovies(query) {
       } finally {
         setIsLoading(false)
       }
-    }
+    };
 
     if (query.length < 3) {
       setDisplayMovies([]);
       setError("");
       return;
-    }
+    };
 
     fetchMovies();
-
-    return function(){
+      return function(){
       controller.abort();
-    }
-  }, [query]);
+      }
+    }, [query]
+  );
 
   return {displayMovies, isLoading, error};
-};
+}

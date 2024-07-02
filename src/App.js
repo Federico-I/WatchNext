@@ -4,7 +4,6 @@ import { useMovies } from "./useMovies.js";
 import { useLocalStorageState } from "./useLocalStorageState.js";
 import { useKey } from "./useKey.js";
 
-
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
@@ -17,8 +16,8 @@ const KEY = process.env.REACT_APP_OMDB_API_KEY;
 export default function App() {
 
   const [query, setQuery] = useState("");
-  const {displayMovies, isLoading, error} = useMovies(query);
   const [selectedID, setSelectedID] = useState(null);
+  const {displayMovies, isLoading, error} = useMovies(query);
 
   const [watched, setWatched] = useLocalStorageState([], "watched");
 
@@ -51,20 +50,23 @@ export default function App() {
         <Search query={query} setQuery={setQuery}/>
         <FoundCounter movies={displayMovies}/>
       </NavBar>
+
       <Main>
         <List>
           {isLoading && <Loading/>}
-          { !isLoading && !error && 
-            <MovieList movies={displayMovies} onSelectedID={handleSelectID} />}
+          { !isLoading && !error && (
+            <MovieList movies={displayMovies} onSelectedID={handleSelectID} />
+            )}
           {error && <Error message={error} />}
         </List>
+
         <List >
           { 
             selectedID ? 
-              <MovieSummary selectedID={selectedID} onCloseSelected={handleCloseSelected} onAddWatched={handleAddWatched} watched={watched}/> : <>
+             (<MovieSummary selectedID={selectedID} onCloseSelected={handleCloseSelected} onAddWatched={handleAddWatched} watched={watched}/>) : (<>
               <WatchedStats watched={watched}/>
               <WatchedMovies watched={watched} onDelete={handleDeleteWatched}/>
-          </>}
+          </>)}
         </List>
       </Main>
     </>
@@ -77,8 +79,8 @@ export default function App() {
 function Loading() {
   return(
     <p className="loader">Loading...</p>
-  )
-};
+  );
+}
 
 //////////////////////////////////////////////////////////
 //                    ErrorComp
@@ -86,10 +88,10 @@ function Loading() {
 function Error({ message }) {
   return(
     <p className="error">
-      <span>X</span>{message}
+      <span>⛔️</span>{message}
     </p>
-  )
-};
+  );
+}
 
 //////////////////////////////////////////////////////////
 //                       NavBar
@@ -100,6 +102,18 @@ function NavBar({ children }) {
         <Logo />
         {children}
       </nav>
+  );
+}
+
+//////////////////////////////////////////////////////////
+//                       Logo
+//////////////////////////////////////////////////////////
+function Logo() {
+  return(
+    <div className="logo">
+      <span role="img">🍿</span>
+      <h1>2Watch</h1>
+    </div>
   )
 };
 
@@ -117,26 +131,14 @@ function Search({ query, setQuery }) {
 
   return(
     <input
-    className="search"
-    type="text"
-    placeholder="Search movies..."
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-    ref={focusEl}
-  />
-  )
-};
-
-//////////////////////////////////////////////////////////
-//                       Logo
-//////////////////////////////////////////////////////////
-function Logo() {
-  return(
-    <div className="logo">
-      <span role="img">🍿</span>
-      <h1>2Watch</h1>
-    </div>
-  )
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      ref={focusEl}
+    />
+  );
 };
 
 //////////////////////////////////////////////////////////
@@ -147,8 +149,8 @@ function FoundCounter({ movies }) {
     <p className="num-results">
       Found <strong>{movies.length}</strong> results
     </p>
-  )
-};
+  );
+}
 
 //////////////////////////////////////////////////////////
 //                       Main
@@ -159,7 +161,7 @@ function Main({ children }) {
         {children}
       </main>
   );
-};
+}
 
 //////////////////////////////////////////////////////////
 //                     ListComp
@@ -176,21 +178,21 @@ function List({ children }) {
       </button>
       {isOpen && children}
     </div>
-  )
-};
+  );
+}
 
 //////////////////////////////////////////////////////////
 //                     MovieList
 //////////////////////////////////////////////////////////
-function MovieList({ movies, onSelectedID}) {
+function MovieList({ movies, onSelectedID }) {
   return(
     <ul className="list list-movies">
       {movies?.map((movie) => (
         <MovieCompList movie={movie} key={movie.imdbID} onSelectedID={onSelectedID}/>
       ))}
     </ul>
-  )
-};
+  );
+}
 
 //////////////////////////////////////////////////////////
 //                     MovieComp
@@ -207,8 +209,8 @@ function MovieCompList({ movie, onSelectedID }) {
         </p>
       </div>
     </li>
-  )
-};
+  );
+}
 
 //////////////////////////////////////////////////////////
 //                  MovieSummary
@@ -222,15 +224,16 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
   useEffect(
     function() {
-      if (personalRating) countRateRef.current = countRateRef.current + 1;
-  }, [personalRating]);
+      if (personalRating) countRateRef.current ++;
+    }, [personalRating]
+  );
 
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedID);
   const userRated = watched.find((movie) => movie.imdbID === selectedID)?.userRating;
 
   const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
 
-  const isTop = imdbRating > 8;
+  // const isTop = imdbRating > 8;
   
   // const [userAvgRating, setUserAvgRating] = useState(0);
 
@@ -257,19 +260,15 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
   useEffect(
     function() {
-
     async function getMovieDetails(){
       setIsLoading(true);
-
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${KEY}&${selectedID}`
+        `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedID}`
       );
-
       const data = await res.json();
       setMovieInfo(data);
       setIsLoading(false);
     }
-
     getMovieDetails();
     }, [selectedID]
   );
@@ -277,21 +276,20 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   ///////////////////////////////////////////////
   //  Chnage browser tab name to movie-title
   ///////////////////////////////////////////////
-  useEffect(function () {
-
+  useEffect(
+    function () {
     if(!title) return;
     document.title = `Movie | ${title}`;
 
     return function () {
       document.title = "2Watch";
     }
-    
     }, [title]
   );
   ///////////////////////////////////////////////
 
   return(
-    <div className="detail">
+    <div className="details">
       { isLoading ? ( <Loading /> ) : ( 
         <>
           <header>
@@ -305,7 +303,10 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
                 {released} &bull; {runtime}
               </p>
               <p>{genre}</p>
-              <p><span>*</span>{imdbRating} IMDB Rating</p>
+              <p>
+                <span>*</span>
+                {imdbRating} IMDB Rating
+              </p>
             </div>
           </header>
 
@@ -321,7 +322,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
                     <button className="btn-add" onClick={handleAdd}>
                       + Add movie
                     </button>
-                  )};
+                  )}
                 </>
               : <p>Movie already rated with {userRated}! </p>}
             </div>
@@ -332,7 +333,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
             <p>Directed by {director}</p>
           </section>
         </>
-      )};
+      )}
     </div>
   )
 };
@@ -381,8 +382,8 @@ function WatchedMovies({ watched, onDelete }) {
         <MovieItem movie={movie} key={movie.imdbID} onDelete={onDelete}/>
       ))}
     </ul>
-  )
-};
+  );
+}
 
 //////////////////////////////////////////////////////////
 //                    MovieComp
@@ -409,5 +410,5 @@ function MovieItem({ movie, onDelete }) {
         <button className="btn-delete" onClick={() => onDelete(movie.imdbID)}>X</button>
       </div>
     </li>
-  )
-};
+  );
+}
