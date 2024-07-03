@@ -232,7 +232,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedID);
   const userRated = watched.find((movie) => movie.imdbID === selectedID)?.userRating;
 
-  const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Released: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
+  const {Title: title, Year: year, Poster: poster, Runtime: runtime, imdbRating, Plot: plot, Released: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
 
   // const isTop = imdbRating > 8;
   // const [userAvgRating, setUserAvgRating] = useState(0);
@@ -244,7 +244,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
       year,
       poster,
       imdbRating: Number(imdbRating),
-      runtime,
+      runtime: Number(runtime.split(" ").at(0)),
       personalRating,
       countRateRefDecisions: countRateRef.current,
     };
@@ -302,7 +302,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
             <div className="details-overview">
               <h2>{title}</h2>
               <p>
-                {released} &bull; {movieInfo.runtime} min
+                {released} &bull; {runtime}
               </p>
               <p>{genre}</p>
               <p>
