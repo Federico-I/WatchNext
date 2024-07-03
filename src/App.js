@@ -222,6 +222,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 
   const countRateRef = useRef(0);
 
+
   useEffect(
     function() {
       if (personalRating) countRateRef.current ++;
@@ -231,10 +232,9 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedID);
   const userRated = watched.find((movie) => movie.imdbID === selectedID)?.userRating;
 
-  const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Relesed: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
+  const {Title: title, Year: year, Poster: poster, RunTime: runtime, imdbRating, Plot: plot, Released: released, Actors: actors, Director: director, Genre: genre} = movieInfo;
 
   // const isTop = imdbRating > 8;
-  
   // const [userAvgRating, setUserAvgRating] = useState(0);
 
   function handleAdd() {
@@ -244,10 +244,12 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
       year,
       poster,
       imdbRating: Number(imdbRating),
-      runtime: Number(runtime.split("").at(0)),
+      runtime,
       personalRating,
       countRateRefDecisions: countRateRef.current,
-    }
+    };
+
+    console.log(newWatchedMovie);
 
     onAddWatched(newWatchedMovie);
     onCloseSelected();
@@ -300,7 +302,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
             <div className="details-overview">
               <h2>{title}</h2>
               <p>
-                {released} &bull; {runtime}
+                {released} &bull; {movieInfo.runtime} min
               </p>
               <p>{genre}</p>
               <p>
@@ -324,7 +326,8 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
                     </button>
                   )}
                 </>
-              : <p>Movie already rated with {userRated}! </p>}
+                : <p>Movie already rated with {userRated}! </p>
+              }
             </div>
             <p>
               <em>{plot}</em>
@@ -335,8 +338,8 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
         </>
       )}
     </div>
-  )
-};
+  );
+}
 
 //////////////////////////////////////////////////////////
 //                      Watched
