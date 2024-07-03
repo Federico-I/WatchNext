@@ -249,7 +249,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
       countRateRefDecisions: countRateRef.current,
     };
 
-    console.log(newWatchedMovie);
+    // console.log(newWatchedMovie);
 
     onAddWatched(newWatchedMovie);
     onCloseSelected();
@@ -347,7 +347,7 @@ function MovieSummary({ selectedID, onCloseSelected, onAddWatched, watched }) {
 function WatchedStats({ watched }) {
 
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgUserRating = average(watched.map((movie) => movie.personalRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
 
   return(
@@ -403,7 +403,7 @@ function MovieItem({ movie, onDelete }) {
         </p>
         <p>
           <span>🌟</span>
-          <span>{movie.userRating}</span>
+          <span>{movie.personalRating}</span>
         </p>
         <p>
           <span>⏳</span>
